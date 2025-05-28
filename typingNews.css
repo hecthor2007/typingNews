@@ -1,0 +1,56 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    background-color: #131313;
+    font-family: sans-serif;
+}
+
+#contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background-color: rgb(36, 36, 36);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#typeZone {
+    position: absolute;
+    opacity: 0;
+}
+
+#textGoal {
+    text-align: center;
+    max-width: 700px;
+    color:aliceblue;
+    font-family: "Courier New";
+    font-size: 1.5rem;
+}
+
+#typeZone {
+    width: 100%;
+    max-width: 400px;
+}
+
+#state {
+    font-weight: bold;
+}
+
+.correcta {
+    color: green;
+}
+
+.incorrecta {
+    color: red;
+}
+
+.pendiente {
+    color: aliceblue;
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0">
+    <title>typingNews</title>
+    <script src="typingNews.js" defer></script>
+    <link rel="stylesheet" href="typingNews.css">
+</head>
+<body>
+    <div id="contenedor">
+        <div id="textGoal"></div>
+        <input type="text" id="typeZone" placeholder="escribe aquí">
+        <div id="state"></div>
+    </div>
+</body>
+<script>
+    const contenedor = document.getElementById("contenedor");
+
+contenedor.addEventListener("click", () => {
+typeZone.focus();
+});
+
+</script>
+</html>
