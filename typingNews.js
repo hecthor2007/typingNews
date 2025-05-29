@@ -1,7 +1,9 @@
 const textGoal = document.getElementById("textGoal");
 const typeZone = document.getElementById("typeZone");
+const wpmDisplay = document.getElementById("wpmDisplay");
 const state = document.getElementById("state");
 var goal = "Esta es una prueba para el texto objetivo, despues ira aqui una noticia";
+var startTimer = null;
 
 function textVisualFormat (userInput)
 {
@@ -28,16 +30,46 @@ for(let i = 0; i < goal.length; i++)
 textGoal.innerHTML = visualText;
 }
 
-typeZone.addEventListener(
+function wpmCalculate(userText)
+{
+    if (startTimer !== null) {
+        const now = Date.now();
+        const elapsedTimeInMinutes = (now - startTimer) / 1000 / 60;
+    
+        const characterCount = userText.length;
+        const wpm = Math.round((characterCount / 5) / elapsedTimeInMinutes);
+
+        wpmDisplay.textContent = `WPM:${wpm}`;
+    }
+}
+
+function resetTyping() {
+    typeZone.disabled = false;
+    typeZone.value = "";
+    startTimer = null;
+    state.textContent = "";
+    wpmDisplay.textContent = "WPM: 0";
+    textVisualFormat("");
+    typeZone.focus();
+}
+
+typeZone.addEventListener
+(
 "input", () => 
 {
     const userText = typeZone.value;
 
-    textVisualFormat(userText);
+    if (startTimer === null && userText.length > 0) {
+        startTimer = Date.now();//empieza el contador
+    }
 
-    if (userText === goal) {
-        state.textContent = "finished!!";
+    textVisualFormat(userText);
+    wpmCalculate(userText);
+
+    if (userText.length === goal.length) {
+        state.textContent = "finished!! press space to continue";
         typeZone.disabled = true;
+        startTime = null;//termina el contador
     }
     else
     {
@@ -45,4 +77,9 @@ typeZone.addEventListener(
     }
 }
 );
+document.addEventListener("keydown", (event) => {
+    if (typeZone.disabled && (event.key === " ")) {
+        resetTyping();
+    }
+});
 textVisualFormat("");
