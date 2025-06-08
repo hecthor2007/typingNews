@@ -4,18 +4,34 @@ const wpmDisplay = document.getElementById("wpmDisplay");
 const state = document.getElementById("state");
 var goal = "Esta es una prueba para el texto objetivo, despues ira aqui una noticia";
 var startTimer = null;
+var newsList = [], currentIndex = 0;
 
 const apiKey = "beced55d853b46769ce4a2b96bddc744";
 const url = `https://newsapi.org/v2/top-headlines?country=us&pageSize=5&apiKey=${apiKey}`;
 
-function fetchNews()
-{
-    fetch(url)
-    .then(response => response.json())
-    .then(data => {
-        goal = data.articles[0].title;
-        textVisualFormat("");
-    });
+async function fetchNews() {
+    const response = await fetch(url);
+    const data = await response.json();
+    newsList = data.articles.map(article => article.title);
+    currentIndex = 0;
+    goal = newsList[currentIndex];
+    textVisualFormat("");
+}
+
+async function resetTyping() {
+    typeZone.disabled = false;
+    typeZone.value = "";
+    startTimer = null;
+    state.textContent = "";
+    wpmDisplay.textContent = "WPM: 0";
+
+        if (currentIndex >= newsList.length) {
+        await fetchNews();
+}
+    goal = newsList[currentIndex];
+    currentIndex++;
+    typeZone.focus();
+    textVisualFormat("");
 }
 
 function textVisualFormat (userInput)
@@ -56,17 +72,6 @@ function wpmCalculate(userText)
     }
 }
 
-function resetTyping() {
-    typeZone.disabled = false;
-    typeZone.value = "";
-    startTimer = null;
-    state.textContent = "";
-    wpmDisplay.textContent = "WPM: 0";
-    textVisualFormat("");
-    typeZone.focus();
-    goal = data.articles[requestCont].title;
-}
-
 typeZone.addEventListener
 (
 "input", () => 
@@ -99,3 +104,4 @@ document.addEventListener("keydown", (event) => {
 
 fetchNews();
 textVisualFormat("");
+currentIndex++;
