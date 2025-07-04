@@ -6,13 +6,14 @@ var goal = "Esta es una prueba para el texto objetivo, despues ira aqui una noti
 var startTimer = null;
 var newsList = [], currentIndex = 0;
 
-const apiKey = "beced55d853b46769ce4a2b96bddc744";
-const url = `https://newsapi.org/v2/top-headlines?country=us&pageSize=5&apiKey=${apiKey}`;
-
 async function fetchNews() {
-    const response = await fetch(url);
-    const data = await response.json();
-    newsList = data.articles.map(article => article.title);
+    const response = await fetch("https://api.allorigins.win/raw?url=https://news.yahoo.com/rss");
+    const textData = await response.text();
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(textData, "application/xml");
+    const items = xml.querySelectorAll("item");
+    
+    newsList = Array.from(items).map(item => item.querySelector("title").textContent);
     currentIndex = 0;
     goal = newsList[currentIndex];
     textVisualFormat("");
@@ -88,6 +89,8 @@ typeZone.addEventListener
     if (userText.length === goal.length) {
         state.textContent = "finished!! press space to continue";
         typeZone.disabled = true;
+        document.getElementById("contenedor").style.display = "none";
+        document.getElementById("resultsScreen").style.display = "block";
         startTimer = null;//termina el contador
     }
     else
@@ -99,6 +102,8 @@ typeZone.addEventListener
 document.addEventListener("keydown", (event) => {
     if (typeZone.disabled && (event.key === " ")) {
         resetTyping();
+        document.getElementById("resultsScreen").style.display = "none";
+        document.getElementById("contenedor").style.display = "flex";
     }
 });
 
