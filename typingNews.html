@@ -8,22 +8,36 @@
     <link rel="stylesheet" href="typingNews.css">
 </head>
 <body>
+<header id="header">typing<span style="color:blue;">News</span></header>
+<main id="mainPage">
     <div id="wrapper">
-    <div id="header">typing<span style="color:blue;">News</span></div>
-        <div id="contenedor">
+        <div id="container">
             <div id="textGoal"></div>
             <input type="text" id="typeZone" placeholder="escribe aquí">
             <div id="state"></div>
             <div id="wpmDisplay"></div>
         </div>
-    <div id="resultsScreen" style="display: none;">
-    <h2>¡Completado!</h2>
-    <p>Presiona espacio para continuar...</p>
-</div>
+        <div id="resultsScreen" style="display: none;">
+        <h2>¡Completado!</h2>
+        <p>Presiona espacio para continuar...</p>
+        </div>
+        <div id="noFocus" style="display: none;">
+        <h2>Click here to focus</h2>
+        </div>
     </div>
+    <div id="wrapper2">
+        <div id="configContainer">
+            <h2>Config</h2>
+            <ul>
+                <li>
+                    lazyMode
+                    <input type="checkbox" id="lazyModeCheckbox">
+                </li>
+                <li>config2</li>
+                <li>config3</li>
+            </ul>
+        </div>
+    </div>
+</main>
 </body>
-<script>
-    const contenedor = document.getElementById("contenedor");
-    contenedor.addEventListener("click", () => {typeZone.focus();});
-</script>
 </html>

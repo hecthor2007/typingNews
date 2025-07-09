@@ -5,8 +5,28 @@ body
     font-family: sans-serif;
 }
 
+#mainPage
+{
+    position: relative;
+    overflow: auto;
+    scroll-snap-type: y mandatory;
+    width: 100%;
+    height: 100vh;
+}
+
 #wrapper 
 {
+    scroll-snap-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#wrapper2
+{
+    scroll-snap-align: center;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -25,6 +45,7 @@ body
 /*aligned*/
     top: 0;
     left: 0;
+    z-index: 10;
     padding-left: 20px;
     width: 100%;
     line-height: 80px;
@@ -39,13 +60,29 @@ body
     font-weight: bold;
 }
 
-#contenedor 
+#container 
 {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
 }
+
+#configContainer 
+{
+    display: flex;               /* convierte el contenedor en flexbox */
+    flex-direction: column;     /* para que los hijos se apilen verticalmente */
+    align-items: flex-start;    /* alinea los hijos horizontalmente a la izquierda */
+    justify-content: flex-start;/* alinea los hijos verticalmente arriba */
+    
+    width: 1000px;
+    height: 500px;
+    padding: 20px; /*cambiar valores aqui... */
+    border-radius: 40px;
+    background-color: aliceblue;
+}
+
+
 #typeZone {
     position: absolute;
     left: -9999px;
