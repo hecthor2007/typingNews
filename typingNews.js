@@ -4,7 +4,10 @@ const wpmDisplay = document.getElementById("wpmDisplay");
 const state = document.getElementById("state");
 var goal = "Esta es una prueba para el texto objetivo, despues ira aqui una noticia";
 var startTimer = null;
-var lazyModeState = false;
+var settings = {
+    lazyUpperCase: false,
+    lazySpecialCase: false
+};
 var newsList = [], currentIndex = 0;
 
 async function fetchNews() {
@@ -17,8 +20,7 @@ async function fetchNews() {
     newsList = Array.from(items).map(item => item.querySelector("title").textContent);
     currentIndex = 0;
     goal = newsList[currentIndex];
-    goalFormat();
-    textVisualFormat("");
+    currentIndex++;
 }
 
 async function resetTyping() {
@@ -63,11 +65,11 @@ for(let i = 0; i < goal.length; i++)
     }
     else if(userLetter === goalLetter)
     {
-        visualText += `<span class="correct">${goalLetter}</span>`;
+        visualText +=`<span class="correct">${goalLetter}</span>`;
     }
     else
     {
-        visualText += `<span class="incorrect">${goalLetter}</span>`;
+        visualText +=`<span class="incorrect">${goalLetter}</span>`;
     }
 }
 textGoal.innerHTML = visualText;
@@ -86,45 +88,15 @@ function wpmCalculate(userText)
     }
 }
 
-typeZone.addEventListener
-(
-"input", () => 
-{
-    const userText = typeZone.value;
-
-    if (startTimer === null && userText.length > 0) {
-        startTimer = Date.now();//empieza el contador
-    }
-
-    textVisualFormat(userText);
-    wpmCalculate(userText);
-
-    if (userText.length === goal.length) {
-        state.textContent = "finished!! press space to continue";
-        typeZone.disabled = true;
-        tabSwitch("finished");
-        startTimer = null;//termina el contador
-    }
-    else
-    {
-        state.textContent = "";
-    }
-}
-);
-document.addEventListener("keydown", (event) => {
-    if (typeZone.disabled && (event.key === " ")) {
-        event.preventDefault();
-        resetTyping();
-        tabSwitch("focus");
-        typeZone.focus();
-    }
-});
-
 function goalFormat()
 {
-    if(lazyModeState==true)
+    if(settings.lazyUpperCase)
     {
         goal = goal.toLowerCase();
+    }
+    if(settings.lazySpecialCase)
+    {
+    goal = goal.replace(/[^a-zA-Z0-9\s]/g, '');
     }
 }
 
@@ -150,7 +122,9 @@ function tabSwitch(actualTab)
     }
 }
 
-    const container = document.getElementById("container");
+function focusCheck()
+{
+        const container = document.getElementById("container");
     container.addEventListener("click", () => {
         tabSwitch("focus");
         typeZone.focus();
@@ -168,14 +142,60 @@ typeZone.addEventListener("blur", () => {
 typeZone.addEventListener("focus", () => {
     tabSwitch("focus");
 });
+}
 
-    const checkbox = document.getElementById("lazyModeCheckbox");
-checkbox.addEventListener("change", function () {
-    lazyModeState = checkbox.checked; // true o false según el checkbox
-    goalFormat();                     // reformatea el texto actual
-    textVisualFormat(typeZone.value); // re-renderiza el texto según lo escrito
+function configCheck()
+{
+    const UpperCaseCheckbox = document.getElementById("lazyUpperCaseBox");
+    UpperCaseCheckbox.addEventListener("change", function () {
+    settings.lazyUpperCase = UpperCaseCheckbox.checked;
+    goalFormat();                     // reformat
+    textVisualFormat(typeZone.value);
 });
-fetchNews();
-goalFormat();
-textVisualFormat("");
-currentIndex++;
+    const specialCaseCheckbox = document.getElementById("lazySpecialCaseBox");
+    specialCaseCheckbox.addEventListener("change", function () {
+    settings.lazySpecialCase = specialCaseCheckbox.checked;
+    goalFormat();                     // reformat
+    textVisualFormat(typeZone.value);
+});
+}
+
+//no para-code start
+
+typeZone.addEventListener
+(
+"input", () => 
+{
+    const userText = typeZone.value;
+
+    if (startTimer === null && userText.length > 0) {
+        startTimer = Date.now();//start timer
+    }
+
+    textVisualFormat(userText);
+    wpmCalculate(userText);
+
+    if (userText.length === goal.length) {
+        state.textContent = "finished!! press space to continue";
+        typeZone.disabled = true;
+        tabSwitch("finished");
+        startTimer = null;//finish timer
+    }
+    else
+    {
+        state.textContent = "";
+    }
+}
+);
+document.addEventListener("keydown", (event) => {
+    if (typeZone.disabled && (event.key === " ")) {
+        event.preventDefault();
+        resetTyping();
+        tabSwitch("focus");
+        typeZone.focus();
+    }
+});
+
+focusCheck();
+configCheck();
+resetTyping();//for text init 
