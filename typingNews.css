@@ -5,6 +5,18 @@ body
     font-family: sans-serif;
 }
 
+#wpmDisplay
+{
+    color: aliceblue;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#noFocus
+{
+    color: #99ccff;
+    font-family: 'Courier New', Courier, monospace;
+}
+
 #mainPage
 {
     position: relative;
@@ -52,7 +64,7 @@ body
     height: 80px;
     position: fixed;
 /*color*/
-    background-color: aliceblue;
+    background-color: #1b1b1b;
     color: white;
 /*font*/
     font-size: 1.5rem;
@@ -79,7 +91,6 @@ body
     height: 500px;
     padding: 20px; /*cambiar valores aqui... */
     border-radius: 40px;
-    background-color: aliceblue;
 }
 
 
